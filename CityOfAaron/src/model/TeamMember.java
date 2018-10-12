@@ -24,4 +24,9 @@ public enum TeamMember {
         return title;
     }
 
+    @Override
+    public String toString() {
+        return "TeamMember{" + "name=" + name + ", title=" + title + '}';
+    }
+
 }

@@ -25,6 +25,9 @@ public class CropData implements Serializable {
     private int eatenByRats;
     private int wheatForPeople;
 
+    public CropData() {
+    }
+
     public int getYear() {
         return year;
     }
@@ -151,6 +154,96 @@ public class CropData implements Serializable {
 
     public void setWheatForPeople(int wheatForPeople) {
         this.wheatForPeople = wheatForPeople;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + this.year;
+        hash = 53 * hash + this.population;
+        hash = 53 * hash + this.acresOwned;
+        hash = 53 * hash + this.cropYield;
+        hash = 53 * hash + this.wheatInStore;
+        hash = 53 * hash + this.numberWhoDied;
+        hash = 53 * hash + this.newPeople;
+        hash = 53 * hash + this.harvest;
+        hash = 53 * hash + this.harvestAfterOffering;
+        hash = 53 * hash + this.offering;
+        hash = 53 * hash + this.offeringBushels;
+        hash = 53 * hash + this.peopleFed;
+        hash = 53 * hash + this.acresPlanted;
+        hash = 53 * hash + this.numStarved;
+        hash = 53 * hash + this.eatenByRats;
+        hash = 53 * hash + this.wheatForPeople;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final CropData other = (CropData) obj;
+        if (this.year != other.year) {
+            return false;
+        }
+        if (this.population != other.population) {
+            return false;
+        }
+        if (this.acresOwned != other.acresOwned) {
+            return false;
+        }
+        if (this.cropYield != other.cropYield) {
+            return false;
+        }
+        if (this.wheatInStore != other.wheatInStore) {
+            return false;
+        }
+        if (this.numberWhoDied != other.numberWhoDied) {
+            return false;
+        }
+        if (this.newPeople != other.newPeople) {
+            return false;
+        }
+        if (this.harvest != other.harvest) {
+            return false;
+        }
+        if (this.harvestAfterOffering != other.harvestAfterOffering) {
+            return false;
+        }
+        if (this.offering != other.offering) {
+            return false;
+        }
+        if (this.offeringBushels != other.offeringBushels) {
+            return false;
+        }
+        if (this.peopleFed != other.peopleFed) {
+            return false;
+        }
+        if (this.acresPlanted != other.acresPlanted) {
+            return false;
+        }
+        if (this.numStarved != other.numStarved) {
+            return false;
+        }
+        if (this.eatenByRats != other.eatenByRats) {
+            return false;
+        }
+        if (this.wheatForPeople != other.wheatForPeople) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "CropData{" + "year=" + year + ", population=" + population + ", acresOwned=" + acresOwned + ", cropYield=" + cropYield + ", wheatInStore=" + wheatInStore + ", numberWhoDied=" + numberWhoDied + ", newPeople=" + newPeople + ", harvest=" + harvest + ", harvestAfterOffering=" + harvestAfterOffering + ", offering=" + offering + ", offeringBushels=" + offeringBushels + ", peopleFed=" + peopleFed + ", acresPlanted=" + acresPlanted + ", numStarved=" + numStarved + ", eatenByRats=" + eatenByRats + ", wheatForPeople=" + wheatForPeople + '}';
     }
     
 }
