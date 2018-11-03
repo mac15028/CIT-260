@@ -13,9 +13,12 @@ public class CropControl {
     // constants
     private static final int ACRES_PER_BUSHEL = 2;
     private static final int PEOPLE_PER_ACRE = 1/10;
+    // private static final int BUSHELS_PER_PERSON = 20;
+    // TODO: YIELD_BASE: static int
+    // TODO: YIELD_RANGE: static int
     private static final int LAND_BASE = 17;
     private static final int LAND_RANGE = 10;
-
+   
     // random number generator
     private static Random random = new Random();
     
@@ -184,4 +187,32 @@ public class CropControl {
         int landCost = random.nextInt(LAND_RANGE) + LAND_BASE;
         return landCost;
     }
+    
+    // TODO: harvestCrops(:CropData): int
+    // if offering < 8, random value between 1 and 3 per acre
+    // if offering >= 8 and <= 12, random value between 2 and 4 per acre
+    // if offering > 12, random value between 2 and 5 per acre
+    
+    // TODO: payOffering(:double, :CropData): int
+    // use results of setOffering() and harvestCrops() to pay the offering
+    // wheatInStore - (harvested crops * offering percent)
+    
+    // TODO: storeWheat(:CropData): int
+    // increase wheatInStore by remaining harvest after offering
+    
+    // TODO: calcEatenByRats(:CropData): int
+    // generate random value between 1 and 100
+    // if value < 30, calculate wheat eaten by rats according to offering
+    // if offering < 8, random value between 3% and 7%
+    // if offering >= 8 and <= 12, random value between 6% and 10%
+    // if offering > 12, random value between 3% and 5%
+    // subtract amount eaten from wheatInStore
+    
+    // TODO: growPopulation(:CropData): int
+    // generate random number to grow population between 1% and 5%
+    
+    // TODO: calcStarved(:CropData): int
+    // divide population by BUSHELS_PER_PERSON
+    // if number of people fed is less than population,
+    // save that number and subtract from population
 }
