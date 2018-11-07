@@ -91,7 +91,7 @@ public class MainMenuView {
     /**
     *The doAction method
     * Purpose: performs the selected action
-    * Parameters: none
+    * @param option
     * Returns: none
     */
     // ===================================
@@ -123,11 +123,11 @@ public class MainMenuView {
     // =================================== 
     public void startNewGame() {
         // Display the Banner Page.
-        System.out.println("Welcome to the city of Aaron./n"
-                + "You have been summoned here by the High Priest to assume your role as ruler of the city./n"
-                + "Your responsibility is to buy and sell land, determine how much wheat to plant each year, and how much to set aside to feed your people./n"
-                + "In addition, it will be your job to pay an annual tithe on the wheat that is harvested./n"
-                + "If you fail to provide enough wheat for the people, people will starve,  some people will die, and your workforce will be diminished./n"
+        System.out.println("Welcome to the city of Aaron." + "\n"
+                + "You have been summoned here by the High Priest to assume your role as ruler of the city." + "\n"
+                + "Your responsibility is to buy and sell land, determine how much wheat to plant each year, and how much to set aside to feed your people." + "\n"
+                + "In addition, it will be your job to pay an annual tithe on the wheat that is harvested." + "\n"
+                + "If you fail to provide enough wheat for the people, people will starve,  some people will die, and your workforce will be diminished." + "\n"
                 + "Plan carefully.");
         
         // Prompt for and get the user's name
@@ -140,10 +140,11 @@ public class MainMenuView {
         GameControl.createNewGame(name);
           
         // Display a welcome message
-        System.out.println("Welcome " + name + " have fun!");
+        System.out.println("Welcome, " + name + ". Have fun!");
         
         // Display the Game menu
-          
+        GameMenuView gmv = new GameMenuView();
+        gmv.displayMenuView();
     }
 
     public void startSavedGame() {
@@ -151,7 +152,8 @@ public class MainMenuView {
     }
 
     public void displayHelpMenuView() {
-        System.out.println("Help menu option selected.");
+        HelpMenuView hmv = new HelpMenuView();
+        hmv.displayMenuView();
     }
 
     public void displaySaveGameView() {

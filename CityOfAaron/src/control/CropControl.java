@@ -14,8 +14,8 @@ public class CropControl {
     private static final int ACRES_PER_BUSHEL = 2;
     private static final int PEOPLE_PER_ACRE = 1/10;
     // private static final int BUSHELS_PER_PERSON = 20;
-    // TODO: YIELD_BASE: static int
-    // TODO: YIELD_RANGE: static int
+    private static int YIELD_BASE = 1;
+    private static int YIELD_RANGE = 3;
     private static final int LAND_BASE = 17;
     private static final int LAND_RANGE = 10;
    
@@ -188,24 +188,59 @@ public class CropControl {
         return landCost;
     }
     
-    // TODO: harvestCrops(:CropData): int
-    // if offering < 8, random value between 1 and 3 per acre
-    // if offering >= 8 and <= 12, random value between 2 and 4 per acre
-    // if offering > 12, random value between 2 and 5 per acre
+    /**
+     * harvestCrops() method
+     * Purpose: Calculate the amount harvested based on the offering
+     * @param offering
+     * @param cropData
+     * @return the amount of wheat harvested
+     */
+    public static int harvestCrops(int offering, CropData cropData){
+        // if offering > 12, random value between 2-5 per acre
+        if (offering > 12) {
+            YIELD_BASE = 2;
+            YIELD_RANGE = 4;
+        // else if offering between 8 and 12, random value between 2-4 per acre
+        } else if (offering > 8 && offering < 12) {
+            YIELD_BASE = 2;
+            YIELD_RANGE = 3;
+        // else, random value between 1-3 per acre
+        } else {
+            YIELD_BASE = 1;
+            YIELD_RANGE = 3;
+        }
+        int harvest = random.nextInt(YIELD_BASE) + YIELD_RANGE;
+        return harvest;
+    }
     
-    // TODO: payOffering(:double, :CropData): int
-    // use results of setOffering() and harvestCrops() to pay the offering
-    // wheatInStore - (harvested crops * offering percent)
+    /**
+     * payOffering() method
+     * Purpose: To use the results of setOffering() and harvestCrops()
+     * to pay the offering
+     * @param offering percent
+     * @param harvest
+     * @param cropData
+     * @return the amount of wheat in store
+     */
     
-    // TODO: storeWheat(:CropData): int
-    // increase wheatInStore by remaining harvest after offering
+    public static int payOffering(double offering, int harvest, CropData cropData) {
+        int harvestAfterOffering;
+        harvestAfterOffering = (int) (harvest - (harvest * (offering / 100)));
+        return harvestAfterOffering;
+    }
+    
+    public static int storeWheat(int harvestAfterOffering, CropData cropData) {
+        int wheatInStore = cropData.getWheatInStore();
+        wheatInStore = wheatInStore + harvestAfterOffering;
+        return wheatInStore;
+    }
     
     // TODO: calcEatenByRats(:CropData): int
     // generate random value between 1 and 100
     // if value < 30, calculate wheat eaten by rats according to offering
     // if offering < 8, random value between 3% and 7%
-    // if offering >= 8 and <= 12, random value between 6% and 10%
-    // if offering > 12, random value between 3% and 5%
+    // else if offering >= 8 and <= 12, random value between 6% and 10%
+    // else if offering > 12, random value between 3% and 5%
     // subtract amount eaten from wheatInStore
     
     // TODO: growPopulation(:CropData): int
