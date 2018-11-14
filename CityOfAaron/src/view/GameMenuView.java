@@ -12,10 +12,10 @@ public class GameMenuView {
     public GameMenuView() {
         gameMenu = "\n" +
         "GAME MENU VIEW\n" +
-        "1 = View the map\n" +
-        "2 = View the list\n" +
-        "3 = Move to a new location\n" +
-        "4 = Manage crops\n" +
+        "1 - View the map\n" +
+        "2 - View the list\n" +
+        "3 - Move to a new location\n" +
+        "4 - Manage crops\n" +
         "5 - Exit to main menu";
         max = 5;
     }

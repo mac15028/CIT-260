@@ -150,7 +150,8 @@ public class CropControl {
                 return -1;
         //wheatInStore = wheatInStore - (acresPlanted * ACRES_PER_BUSHEL)
         wheatInStore -= (acresPlanted * ACRES_PER_BUSHEL);
-        
+        cropData.setWheatInStore(wheatInStore);
+        cropData.setAcresPlanted(acresPlanted);
         //return acresPlanted
         return acresPlanted;
     }
@@ -232,6 +233,7 @@ public class CropControl {
     public static int storeWheat(int harvestAfterOffering, CropData cropData) {
         int wheatInStore = cropData.getWheatInStore();
         wheatInStore = wheatInStore + harvestAfterOffering;
+        cropData.setWheatInStore(wheatInStore);
         return wheatInStore;
     }
     
