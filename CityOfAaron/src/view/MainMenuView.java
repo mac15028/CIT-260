@@ -5,16 +5,11 @@
 //-------------------------------------------------------------
 package view;
 
-import java.util.Scanner;
 import cityofaaron.CityOfAaron;
 import control.GameControl;
 
 public class MainMenuView extends MenuView{
-    Scanner keyboard = new Scanner(System.in);
-    
-    private String menu;
-    private int max;
-    
+
     /**
     * The MainMenuView constructor
     * Purpose: Initialize the menu data
@@ -92,7 +87,7 @@ public class MainMenuView extends MenuView{
         
         // Display the Game menu
         GameMenuView gmv = new GameMenuView();
-        gmv.displayMenuView();
+        gmv.displayMenu();
     }
 
     public void startSavedGame() {
@@ -101,7 +96,7 @@ public class MainMenuView extends MenuView{
 
     public void displayHelpMenuView() {
         HelpMenuView hmv = new HelpMenuView();
-        hmv.displayMenuView();
+        hmv.displayMenu();
     }
 
     public void displaySaveGameView() {
