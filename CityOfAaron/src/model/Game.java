@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Game implements Serializable {
@@ -9,7 +10,10 @@ public class Game implements Serializable {
     private Player thePlayer;
     private CropData cropData;
     private Map theMap;
-
+    private ArrayList<ListItem> animals;
+    private ArrayList<ListItem> tools;
+    private ArrayList<ListItem> provisions;
+    
     public Game() {
     }
     
@@ -35,6 +39,30 @@ public class Game implements Serializable {
     
     public void setMap(Map map) {
         this.theMap = map;
+    }
+    
+    public ArrayList<ListItem> getAnimals() {
+        return animals;
+    }
+
+    public void setAnimals(ArrayList<ListItem> animals) {
+        this.animals = animals;
+    }
+
+    public ArrayList<ListItem> getTools() {
+        return tools;
+    }
+
+    public void setTools(ArrayList<ListItem> tools) {
+        this.tools = tools;
+    }
+
+    public ArrayList<ListItem> getProvisions() {
+        return provisions;
+    }
+
+    public void setProvisions(ArrayList<ListItem> provisions) {
+        this.provisions = provisions;
     }
     
     @Override

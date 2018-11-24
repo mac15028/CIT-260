@@ -12,7 +12,9 @@ public class ListItem implements Serializable{
     private String name;
     private int number;
 
-    public ListItem() {
+    public ListItem(String name, int number) {
+        this.name = name;
+        this.number = number;
     }
 
     public String getName() {

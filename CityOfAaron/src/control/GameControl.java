@@ -9,6 +9,7 @@
 package control;
 import model.*;
 import cityofaaron.CityOfAaron;
+import java.util.ArrayList;
 
 public class GameControl {
     // size of the Locations array
@@ -30,8 +31,11 @@ public class GameControl {
         // save reference to the player object in the game object
         theGame.setPlayer(thePlayer);
         
-        createMap();
         createCropDataObject();
+        createAnimalList();
+        createToolList();
+        createProvisionsList();
+        createMap();
     }
     
     public static void createCropDataObject(){        
@@ -58,14 +62,6 @@ public class GameControl {
         // create the Map object
         // refer to the Map constructor
         Map theMap = new Map(MAX_ROW, MAX_COL);
-        
-        /*Location loc = new Location();
-        loc.setDescription("Test");
-        loc.setSymbol("~~~");
-        for(int i = 0; i < MAX_ROW; i++){
-            theMap.setLocation(i, 0, loc);
-
-        }*/
         
         // River location
         String river = "You are on the river, the source of life for our city.";
@@ -97,7 +93,8 @@ public class GameControl {
         // Farmland location        
         String farmland = "You are on the city's farmland.";
         loc = new Location();
-        loc.setDescription(farmland + "\nOne bushel will plant two acres of wheat.");
+        loc.setDescription(farmland + "\nOne bushel will plant two acres of"
+                + "wheat.");
         loc.setSymbol("!!!");
         theMap.setLocation(1, 0, loc);
         theMap.setLocation(1, 1, loc);
@@ -111,7 +108,7 @@ public class GameControl {
         loc = new Location();
         loc.setDescription(undev);
         loc.setSymbol("___");
-        for(int i = 1; i < 5; i++){
+        for(int i = 1; i < MAX_COL; i++){
             theMap.setLocation(3, i, loc);
         }
         
@@ -135,7 +132,8 @@ public class GameControl {
                           + "\nThis is where your city's wheat, animals,"
                           + "\n and tools are kept.";
         loc = new Location();
-        loc.setDescription(storehouse + "\n 20 bushels of wheat will feed one person for a year.");
+        loc.setDescription(storehouse + "\n 20 bushels of wheat will feed one"
+                + " person for a year.");
         loc.setSymbol("&&&");
         theMap.setLocation(2, 3, loc);
         
@@ -155,19 +153,23 @@ public class GameControl {
         Game theGame = CityOfAaron.getTheGame();
         Map theMap = theGame.getMap();     
                 System.out.println(  
-                "\n======================================"
-              + "\n               City Map               "
-              + "\n======================================"
+                "\n**************************************"
+              + "\n*              City Map              *"
+              + "\n**************************************"
               + "\n        1     2     3     4     5     "
-              + "\n      _____ _____ _____ _____ _____   ");
+              + "\n       ___   ___   ___   ___   ___    ");
+                
+        // nested for loop to display locations
         for(int i = 0; i < 5; i++){
-            String row = "\n   "+ (i + 1) +" |"; 
+            String row = "\n   "+ (i + 1) + " |"; 
             for(int j = 0; j < 5; j++){
                 row += " " + theMap.getLocation(i, j).getSymbol()+ " |";
                 System.out.print(row);
                 row = "";
             }
         }
+        
+        // map key
         System.out.println(
               "\n"
             + "\n   Legend:"
@@ -180,6 +182,90 @@ public class GameControl {
             + "\n   @@@ - City of Aaron"
             + "\n   &&& - City Storehouse"
             + "\n   *** - Lamanite Territory");
+    }
+    
+    public static void createAnimalList() {
+        ArrayList<ListItem> animals = new ArrayList<>();
+        
+        animals.add(new ListItem("Cows", 10));
+        animals.add(new ListItem("Chickens", 17));
+        animals.add(new ListItem("Pigs", 8));
+        animals.add(new ListItem("Goats", 9));
+        
+        theGame.setAnimals(animals);
+    }
+    
+    public void displayAnimalList() {
+        ArrayList<ListItem> animalList = theGame.getAnimals();
+        
+        System.out.println("\n***************************"
+                         + "\n*       Animal List       *"
+                         + "\n***************************"
+                         + "\n"
+                         + "\nThere are:\n");
+        
+        for(int i = 0; i < animalList.size(); i++) {
+            System.out.println("- " + animalList.get(i).getNumber() + " "
+                    + animalList.get(i).getName());
+        }
+        System.out.println("\nIn the storehouse.");
+    }
+    
+    public static void createToolList() {
+        ArrayList<ListItem> tools = new ArrayList<>();
+        
+        tools.add(new ListItem("Pickaxes", 15));
+        tools.add(new ListItem("Shovels", 20));
+        tools.add(new ListItem("Hoes", 10));
+        tools.add(new ListItem("Axes", 18));
+        tools.add(new ListItem("Swords", 5));
+        
+        theGame.setTools(tools);
+    }
+    
+    public void displayToolList() {
+        ArrayList<ListItem> toolList = theGame.getTools();
+        
+        System.out.println("\n***************************"
+                         + "\n*        Tool List        *"
+                         + "\n***************************"
+                         + "\n"
+                         + "\nThere are:\n");
+        
+        for(int i = 0; i < toolList.size(); i++) {
+            System.out.println("- " + toolList.get(i).getNumber() + " "
+                    + toolList.get(i).getName());
+        }
+        System.out.println("\nIn the storehouse.");
+    }
+    
+    public static void createProvisionsList() {
+        ArrayList<ListItem> provisions = new ArrayList<>();
+        
+        provisions.add(new ListItem("Pounds of flour", 20));
+        provisions.add(new ListItem("Blankets", 10 ));
+        provisions.add(new ListItem("Tents", 2 ));
+        provisions.add(new ListItem("Ropes", 5));
+        provisions.add(new ListItem("Cords of firewood", 1));
+        provisions.add(new ListItem("Sets of clothes", 7 ));
+        
+        theGame.setProvisions(provisions);
+    }
+    
+    public void displayProvisionsList() {
+        ArrayList<ListItem> provisionsList = theGame.getProvisions();
+        
+        System.out.println("\n***************************"
+                         + "\n*     Provisions List     *"
+                         + "\n***************************"
+                         + "\n"
+                         + "\nThere are:\n");
+        
+        for(int i = 0; i < provisionsList.size(); i++) {
+            System.out.println("- " + provisionsList.get(i).getNumber() + " "
+                    + provisionsList.get(i).getName());
+        }
+        System.out.println("\nIn the storehouse.");
     }
 }
 

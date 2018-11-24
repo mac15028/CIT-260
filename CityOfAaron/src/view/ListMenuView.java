@@ -1,5 +1,7 @@
 package view;
 
+import control.*;
+
 public class ListMenuView extends MenuView{
    
     public ListMenuView()
@@ -34,15 +36,21 @@ public class ListMenuView extends MenuView{
     }
     
     public void listAnimals() {
-        System.out.println("List animals selected.");
+        //System.out.println("List animals selected.");
+        GameControl gameControl = new GameControl();
+        gameControl.displayAnimalList();
     }
     
     public void listTools() {
-        System.out.println("List tools selected.");
+        //System.out.println("List tools selected.");
+        GameControl gameControl = new GameControl();
+        gameControl.displayToolList();
     }
     
     public void listProvisions() {
-        System.out.println("List provisions selected.");
+        //System.out.println("List provisions selected.");
+        GameControl gameControl = new GameControl();
+        gameControl.displayProvisionsList();
     }
     
     public void listTeam() {
