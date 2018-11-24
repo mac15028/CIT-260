@@ -1,9 +1,10 @@
 package view;
 
-import model.Game;
+import cityofaaron.CityOfAaron;
+import control.*;
+import model.*;
 
 public class GameMenuView extends MenuView{
-    private static Game Game = null;
 
     public GameMenuView()
     {
@@ -37,7 +38,8 @@ public class GameMenuView extends MenuView{
     }
     
     public void viewMap() {
-        System.out.println("Map view selected.");
+        GameControl gameControl = new GameControl();
+        gameControl.viewMap();
     }
     
     public void viewList() {

@@ -11,7 +11,7 @@ import view.*;
 
 public class CityOfAaron {
     // variable for keeping a reference to the Game object;
-    private static Game Game = null;
+    private static Game theGame = null;
     
     // main function - entry point for the program
     // runs the main menu
@@ -20,12 +20,12 @@ public class CityOfAaron {
         mmv.displayMenu();
     }
 
-    public static Game getGame() {
-        return Game;
+    public static Game getTheGame() {
+        return theGame;
     }
 
-    public static void setGame(Game Game) {
-        CityOfAaron.Game = Game;
+    public static void setTheGame(Game _theGame) {
+        theGame = _theGame;
     }
     
 }

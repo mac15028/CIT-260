@@ -11,21 +11,34 @@ import model.*;
 import cityofaaron.CityOfAaron;
 
 public class GameControl {
+    // size of the Locations array
+    private static int MAX_ROW = 5;
+    private static int MAX_COL = 5;
+    private static Game theGame;
+    
     public static void createNewGame(String _name) {
         // create the game object
-        Game game = new Game();
+        theGame = new Game();
         
-        //create the player object and set the name
-        Player player = new Player();
-        player.setName(_name);
+        // save a reference to the Game object
+        CityOfAaron.setTheGame(theGame);
         
-        // save reference to the player object in the game
-        game.setPlayer(player);
+        // create the player object and set the name
+        Player thePlayer = new Player();
+        thePlayer.setName(_name);
         
-        // create and initialize a CropData object
-        // save a a reference to it in the Game object
+        // save reference to the player object in the game object
+        theGame.setPlayer(thePlayer);
+        
+        createMap();
+        createCropDataObject();
+    }
+    
+    public static void createCropDataObject(){        
+        // create a CropData object
         CropData cropData = new CropData();
         
+        // initialize the CropData values
         cropData.setYear(0);
         cropData.setPopulation(100);
         cropData.setNewPeople(5);
@@ -37,9 +50,137 @@ public class GameControl {
         cropData.setHarvest(3000);
         cropData.setAcresPlanted(1000);
         
-        game.setCropData(cropData);
+        // save a reference to it in the Game object
+        theGame.setCropData(cropData);
+    }
+    
+    public static void createMap(){
+        // create the Map object
+        // refer to the Map constructor
+        Map theMap = new Map(MAX_ROW, MAX_COL);
         
-        // when all is done, save a reference to the Game object
-        CityOfAaron.setGame(game);
+        /*Location loc = new Location();
+        loc.setDescription("Test");
+        loc.setSymbol("~~~");
+        for(int i = 0; i < MAX_ROW; i++){
+            theMap.setLocation(i, 0, loc);
+
+        }*/
+        
+        // River location
+        String river = "You are on the river, the source of life for our city.";
+        Location loc = new Location();
+        loc.setDescription(river);
+        loc.setSymbol("~~~");
+        for(int i = 0; i < MAX_COL; i++){
+            theMap.setLocation(0, i, loc);
+        }
+        
+        // Mountains location
+        String mountain = "You have reached an impassable mountain range.";
+        loc = new Location();
+        loc.setDescription(mountain);
+        loc.setSymbol("^^^");
+        for(int i = 0; i < 4; i++){
+            theMap.setLocation(4, i, loc);
+        }
+        
+        // Desert location
+        String desert = "You are in the hot, dry desert."
+                      + "\nThis area is inhospitable to your people.";
+        loc = new Location();
+        loc.setDescription(desert);
+        loc.setSymbol("###");
+        theMap.setLocation(2, 0, loc);
+        theMap.setLocation(3, 0, loc);
+        
+        // Farmland location        
+        String farmland = "You are on the city's farmland.";
+        loc = new Location();
+        loc.setDescription(farmland + "\nOne bushel will plant two acres of wheat.");
+        loc.setSymbol("!!!");
+        theMap.setLocation(1, 0, loc);
+        theMap.setLocation(1, 1, loc);
+        theMap.setLocation(1, 2, loc);
+        theMap.setLocation(1, 3, loc);
+        theMap.setLocation(1, 4, loc);
+        theMap.setLocation(2, 4, loc);
+        
+        // Undeveloped land location
+        String undev = "You are on undeveloped land.";
+        loc = new Location();
+        loc.setDescription(undev);
+        loc.setSymbol("___");
+        for(int i = 1; i < 5; i++){
+            theMap.setLocation(3, i, loc);
+        }
+        
+        // Ruler location
+        String ruler = "This is the ruler's palace; your home.";
+        loc = new Location();
+        loc.setDescription(ruler);
+        loc.setSymbol("$$$");
+        theMap.setLocation(2, 1, loc);
+        
+        // Village location
+        String village = "You are in the City of Aaron."
+                       + "\nYou can see your people going about their day.";
+        loc = new Location();
+        loc.setDescription(village);
+        loc.setSymbol("@@@");
+        theMap.setLocation(2, 2, loc);
+        
+        // Storehouse location
+        String storehouse = "You are at the city's storehouse."
+                          + "\nThis is where your city's wheat, animals,"
+                          + "\n and tools are kept.";
+        loc = new Location();
+        loc.setDescription(storehouse + "\n 20 bushels of wheat will feed one person for a year.");
+        loc.setSymbol("&&&");
+        theMap.setLocation(2, 3, loc);
+        
+        // Lamanite land
+        String lamanite = "This is the border of the Lamanite territory."
+                        + "\nAdvancing any further will be "
+                        + "\nconsidered an act of war.";
+        loc = new Location();
+        loc.setDescription(lamanite);
+        loc.setSymbol("***");
+        theMap.setLocation(4, 4, loc);
+        
+        theGame.setMap(theMap);
+    }
+    
+    public void viewMap() {
+        Game theGame = CityOfAaron.getTheGame();
+        Map theMap = theGame.getMap();     
+                System.out.println(  
+                "\n======================================"
+              + "\n               City Map               "
+              + "\n======================================"
+              + "\n        1     2     3     4     5     "
+              + "\n      _____ _____ _____ _____ _____   ");
+        for(int i = 0; i < 5; i++){
+            String row = "\n   "+ (i + 1) +" |"; 
+            for(int j = 0; j < 5; j++){
+                row += " " + theMap.getLocation(i, j).getSymbol()+ " |";
+                System.out.print(row);
+                row = "";
+            }
+        }
+        System.out.println(
+              "\n"
+            + "\n   Legend:"
+            + "\n   ~~~ - River"
+            + "\n   ### - Desert"
+            + "\n   ^^^ - Mountains"
+            + "\n   !!! - Farmland"
+            + "\n   ___ - Undeveloped land"
+            + "\n   $$$ - Ruler's Palace"
+            + "\n   @@@ - City of Aaron"
+            + "\n   &&& - City Storehouse"
+            + "\n   *** - Lamanite Territory");
     }
 }
+
+
