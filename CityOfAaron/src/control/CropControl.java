@@ -6,6 +6,7 @@
  */
 package control;
 
+import exceptions.CropException;
 import model.CropData;
 import java.util.Random;
 
@@ -28,27 +29,27 @@ public class CropControl {
      * @param landPrice
      * @param acresToBuy
      * @param cropData
-     * @return the number of acres owned after the purchase
+     * @throws exceptions.CropException
      * Pre-conditions: acres to buy must be positive,
      * the number of people must be at least 1 per 10 acres
      * and there must be enough bushels available to make the purchase
      */
-    public static int buyLand(int landPrice, int acresToBuy, CropData cropData)
+    public static void buyLand(int landPrice, int acresToBuy, CropData cropData) throws CropException
     {
         //if acresToBuy < 0, return -1
         if (acresToBuy < 0)
-            return -1;
+            throw new CropException("A negative value was input");
         
         //if wheatInStore < (acresToBuy * landPrice), return -1
         int wheatInStore = cropData.getWheatInStore();
         if (wheatInStore < (acresToBuy * landPrice))
-            return -1;
+            throw new CropException("There is insufficient wheat to buy this much land");
         
         //if population < (acresOwned + acresToBuy) * PEOPLE_PER_ACRE, return -1
         int acresOwned = cropData.getAcresOwned();
         int population = cropData.getPopulation();
         if (population < (acresOwned + acresToBuy) * PEOPLE_PER_ACRE)
-            return -1;
+            throw new CropException("There is insufficient population to work this much land");
         
         //acresOwned = acresOwned + acresToBuy
         acresOwned += acresToBuy;
@@ -57,9 +58,6 @@ public class CropControl {
         //wheatInStore = wheatInStore - (acresToBuy * landPrice)
         wheatInStore -= (acresToBuy * landPrice);
         cropData.setWheatInStore(wheatInStore);
-        
-        //return acresOwned
-        return acresOwned;
     }
     
     /**

@@ -4,6 +4,7 @@ import model.*;
 import control.*;
 import java.util.Scanner;
 import cityofaaron.CityOfAaron;
+import exceptions.CropException;
 
 public class CropView {
     // Create a Scanner object
@@ -25,14 +26,21 @@ public class CropView {
         
         // Prompt the user to enter the number of acres to buy
         System.out.format("Land is selling for %d bushels per acre.%n",price);
-        System.out.print("How many acres of land do you wish to buy? ");
-        
-        // Get the user's input and save it
         int acresToBuy;
-        acresToBuy = keyboard.nextInt();
-        
-        // Call the buyLand() method in the control layer to buy the land
-        CropControl.buyLand(acresToBuy, price, cropData);
+        boolean paramsNotOkay;
+        do {
+            paramsNotOkay = false;
+            System.out.print("\nHow many acres of land do you wish to buy? ");
+            acresToBuy = keyboard.nextInt();
+            try {
+                CropControl.buyLand(price, acresToBuy, cropData);
+            }
+            catch(CropException e) {
+                System.out.println("I am sorry master, I cannot do this.");
+                System.out.println(e.getMessage());
+                paramsNotOkay = true;
+            }
+        } while(paramsNotOkay);
         
         // Output how much land we now own
         System.out.format("You now own %d acres of land. ", cropData.getAcresOwned());
