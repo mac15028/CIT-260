@@ -52,7 +52,7 @@ public class GameMenuView extends MenuView{
     }
     
     public void manageCrops() {
-        System.out.println("Manage crops selected.");
+        CropView.runCropsView();
     }
 }
 

@@ -25,12 +25,13 @@ public class CropView {
         int price = CropControl.calcLandCost();
         
         // Prompt the user to enter the number of acres to buy
-        System.out.format("Land is selling for %d bushels per acre.%n",price);
+        System.out.format("\nLand may be purchased for %d bushels per acre.%n",price);
         int acresToBuy;
         boolean paramsNotOkay;
+        // exception handling
         do {
             paramsNotOkay = false;
-            System.out.print("\nHow many acres of land do you wish to buy? ");
+            System.out.print("How many acres of land do you wish to buy? ");
             acresToBuy = keyboard.nextInt();
             try {
                 CropControl.buyLand(price, acresToBuy, cropData);
@@ -43,7 +44,7 @@ public class CropView {
         } while(paramsNotOkay);
         
         // Output how much land we now own
-        System.out.format("You now own %d acres of land. ", cropData.getAcresOwned());
+        System.out.format("You now own %d acres of land.%n", cropData.getAcresOwned());
     }
     
     public static void sellLandView() {
@@ -51,49 +52,73 @@ public class CropView {
         int price = CropControl.calcLandCost();
         
         // Prompt the user to enter the number of acres to sell
-        System.out.format("Land is selling for %d bushels per acre.%n",price);
-        System.out.print("How many acres of land do you wish to sell? ");
-        
-        // Get the user's input and save it
+        System.out.format("\nLand may be sold for %d bushels per acre.%n",price);
         int acresToSell;
-        acresToSell = keyboard.nextInt();
-        
-        // Call the sellLand() method in the control layer to sell the land
-        CropControl.sellLand(acresToSell, price, cropData);
+        boolean paramsNotOkay;
+        // exception handling
+        do {
+            paramsNotOkay = false;       
+            System.out.print("How many acres of land do you wish to sell? ");
+            acresToSell = keyboard.nextInt();
+            try {
+            CropControl.sellLand(price, acresToSell, cropData);
+            }
+            catch(CropException e) {
+                System.out.println("I am sorry master, I cannot do this.");
+                System.out.println(e.getMessage());
+                paramsNotOkay = true;
+            }
+        } while(paramsNotOkay);
         
         // Output how much land we now own
-        System.out.format("You now own %d acres of land. ", cropData.getAcresOwned());
+        System.out.format("You now own %d acres of land.%n", cropData.getAcresOwned());
     }
     
     public static void feedPeopleView() {
         // Prompt the user to enter the amount of wheat to set aside
-        System.out.format("You have %d bushels of wheat in store. ", cropData.getWheatInStore());
-        System.out.print("How much would you like to set aside for food? ");
-        
-        // Get the user's input and save it
+        System.out.format("\nYou have %d bushels of wheat in store. ", cropData.getWheatInStore());
         int wheatForPeople;
-        wheatForPeople = keyboard.nextInt();
-        
-        // Call the feedPeople() method in the control layer
-        CropControl.feedPeople(wheatForPeople, cropData);
+        boolean paramsNotOkay;
+        // exception handling
+        do {
+            paramsNotOkay = false;
+            System.out.print("\nHow much wheat would you like to set aside for food? ");
+            wheatForPeople = keyboard.nextInt();
+            try {
+            CropControl.feedPeople(wheatForPeople, cropData);
+            }
+            catch(CropException e) {
+                System.out.println("I am sorry master, I cannot do this.");
+                System.out.println(e.getMessage());
+                paramsNotOkay = true;
+            }
+        } while(paramsNotOkay);
         
         // Output how much wheat set aside
-        System.out.format("You have set aside %d bushels of wheat. ", cropData.getWheatForPeople());
+        System.out.format("You have set aside %d bushels of wheat.%n", cropData.getWheatForPeople());
     }
     
     public static void plantCropsView() {
         // Prompt the user to enter the amount of wheat to plant
-        System.out.format("You have %d bushels of wheat and own %d acres. ", cropData.getWheatInStore(), cropData.getAcresOwned());
-        System.out.print("How many acres would you like to plant? ");
-        
-        // Get the user's input and save it
-        int acresPlanted = keyboard.nextInt();
-        
-        // Call the plantCrops() method in the control layer
-        CropControl.plantCrops(acresPlanted, cropData);
+        System.out.format("\nYou have %d bushels of wheat and own %d acres. ", cropData.getWheatInStore(), cropData.getAcresOwned());
+        boolean paramsNotOkay;
+        // exception handling
+        do {
+            paramsNotOkay = false;
+            System.out.print("\nHow many acres would you like to plant? ");
+            int acresPlanted = keyboard.nextInt();
+            try {
+                CropControl.plantCrops(acresPlanted, cropData);
+            }
+            catch(CropException e) {
+                System.out.println("I am sorry master, I cannot do this.");
+                System.out.println(e.getMessage());
+                paramsNotOkay = true;
+            }
+        } while(paramsNotOkay);
         
         // Output how many acres are planted
-        System.out.format("You have %d acres of wheat planted. ", cropData.getAcresPlanted());
+        System.out.format("You have planted %d acres of wheat.%n", cropData.getAcresPlanted());
     }
     
     public static void displayCropsReportView() {

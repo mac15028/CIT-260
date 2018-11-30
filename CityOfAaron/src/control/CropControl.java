@@ -13,7 +13,7 @@ import java.util.Random;
 public class CropControl {
     // constants
     private static final int ACRES_PER_BUSHEL = 2;
-    private static final int PEOPLE_PER_ACRE = 1/10;
+    private static final int PEOPLE_PER_ACRE = 10;
     // private static final int BUSHELS_PER_PERSON = 20;
     private static int YIELD_BASE = 1;
     private static int YIELD_RANGE = 3;
@@ -36,19 +36,19 @@ public class CropControl {
      */
     public static void buyLand(int landPrice, int acresToBuy, CropData cropData) throws CropException
     {
-        //if acresToBuy < 0, return -1
+        //if acresToBuy < 0, throw exception
         if (acresToBuy < 0)
             throw new CropException("A negative value was input");
         
-        //if wheatInStore < (acresToBuy * landPrice), return -1
+        //if wheatInStore < (acresToBuy * landPrice), throw exception
         int wheatInStore = cropData.getWheatInStore();
         if (wheatInStore < (acresToBuy * landPrice))
             throw new CropException("There is insufficient wheat to buy this much land");
         
-        //if population < (acresOwned + acresToBuy) * PEOPLE_PER_ACRE, return -1
+        //if population < (acresOwned + acresToBuy) * PEOPLE_PER_ACRE, throw exception
         int acresOwned = cropData.getAcresOwned();
         int population = cropData.getPopulation();
-        if (population < (acresOwned + acresToBuy) * PEOPLE_PER_ACRE)
+        if (acresToBuy > (population / PEOPLE_PER_ACRE))
             throw new CropException("There is insufficient population to work this much land");
         
         //acresOwned = acresOwned + acresToBuy
@@ -66,19 +66,19 @@ public class CropControl {
      * @param landPrice
      * @param acresToSell
      * @param cropData
-     * @return the number of acres owned after the sale
+     * @throws exceptions.CropException
      * Pre-conditions: acres to sell must be positive and <= acresOwned
      */
-    public static int sellLand(int landPrice, int acresToSell, CropData cropData)
+    public static void sellLand(int landPrice, int acresToSell, CropData cropData) throws CropException
     {
-        //if acresToSell < 0, return -1
+        //if acresToSell < 0, throw exception
         if (acresToSell < 0)
-            return -1;
+           throw new CropException("A negative value was input");
         
-        //if acresToSell > acresOwned, return -1
+        //if acresToSell > acresOwned, throw exception
         int acresOwned = cropData.getAcresOwned();
         if (acresToSell > acresOwned)
-            return -1;
+            throw new CropException("You cannot sell more land than you own");
         
         //acresOwned = acresOwned - acresToSell
         acresOwned -= acresToSell;
@@ -88,9 +88,6 @@ public class CropControl {
         int wheatInStore = cropData.getWheatInStore();
         wheatInStore += (acresToSell * landPrice);
         cropData.setWheatInStore(wheatInStore);
-        
-        //return acresOwned
-        return acresOwned;
     }
         
     /**
@@ -98,27 +95,26 @@ public class CropControl {
      * Purpose: to set aside wheat for the people
      * @param wheatForPeople
      * @param cropData
-     * @return  the number of bushels set aside
+     * @throws exceptions.CropException
      * Pre-conditions: number set aside must be positive
      * and there must be enough wheat in storage
      */
-    public static int feedPeople(int wheatForPeople, CropData cropData)
+    public static void feedPeople(int wheatForPeople, CropData cropData) throws CropException
     {
-        //if wheatForPeople < 0, return -1
-        if (wheatForPeople < 0)
-            return -1;
-        
-        //if wheatForPeople > wheatInStore, return -1
         int wheatInStore = cropData.getWheatInStore();
+        
+        //if wheatForPeople < 0, throw exception
+        if (wheatForPeople < 0)
+            throw new CropException("A negative value was input");
+        
+        //if wheatForPeople > wheatInStore, throw exception
         if (wheatForPeople > wheatInStore)
-            return -1;
+            throw new CropException("There is insufficient wheat to set aside this amount");
         
         //wheatInStore = wheatInStore - wheatForPeople
         wheatInStore -= wheatForPeople;
         cropData.setWheatInStore(wheatInStore);
-        
-        //return wheatForPeople
-        return wheatForPeople;
+        cropData.setWheatForPeople(wheatForPeople);
     }
     
     /**
@@ -126,32 +122,31 @@ public class CropControl {
      * Purpose: to plant wheat
      * @param acresPlanted
      * @param cropData
-     * @return the number of acres planted
+     * @throws exceptions.CropException
      * Pre-conditions: acres planted must be positive,
      * enough land must be available,
      * and there must be enough wheat available
      */
-    public static int plantCrops(int acresPlanted, CropData cropData)
+    public static void plantCrops(int acresPlanted, CropData cropData) throws CropException
     {
-        //if acresPlanted < 0, return -1
+        //if acresPlanted < 0, throw exception
         if (acresPlanted < 0)
-            return -1;
+            throw new CropException("A negative value was input");
         
-        //if acresPlanted > acresOwned, return -1
+        //if acresPlanted > acresOwned, throw exception
         int acresOwned = cropData.getAcresOwned();
         if (acresPlanted > acresOwned)
-            return -1;
+            throw new CropException("There is insufficient land to plant this many acres");
         
-        //if wheatInStore < (acresPlanted * ACRES_PER_BUSHEL), return -1
+        //if wheatInStore < (acresPlanted * ACRES_PER_BUSHEL), throw exception
         int wheatInStore = cropData.getWheatInStore();
         if (wheatInStore < (acresPlanted * ACRES_PER_BUSHEL))
-                return -1;
+            throw new CropException("There is insufficient wheat to plant this many acres");
+        
         //wheatInStore = wheatInStore - (acresPlanted * ACRES_PER_BUSHEL)
         wheatInStore -= (acresPlanted * ACRES_PER_BUSHEL);
         cropData.setWheatInStore(wheatInStore);
         cropData.setAcresPlanted(acresPlanted);
-        //return acresPlanted
-        return acresPlanted;
     }
     
     /**
