@@ -1,8 +1,6 @@
 package view;
 
-import cityofaaron.CityOfAaron;
 import control.*;
-import model.*;
 
 public class GameMenuView extends MenuView{
 

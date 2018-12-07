@@ -7,6 +7,7 @@ package view;
 
 import cityofaaron.CityOfAaron;
 import control.GameControl;
+import model.Game;
 
 public class MainMenuView extends MenuView{
 
@@ -90,8 +91,24 @@ public class MainMenuView extends MenuView{
         gmv.displayMenu();
     }
 
+    /**
+     * The startSavedGame method
+     * Purpose: loads a saved game object from disk and start the game
+     */
     public void startSavedGame() {
-        System.out.println("Start saved game option selected.");
+        // get rid of \n character left in the stream
+        keyboard.nextLine();
+        
+        // prompt user and get a file path
+        System.out.println("Enter the path to your saved game: ");
+        String filePath = keyboard.next();
+        
+        // call the getSavedGame() method in the GameControl class to load the game
+        GameControl.getSavedGame(filePath);
+        
+        // display the game menu for the loaded game
+        GameMenuView gmv = new GameMenuView();
+        gmv.displayMenu();
     }
 
     public void displayHelpMenuView() {
@@ -99,7 +116,23 @@ public class MainMenuView extends MenuView{
         hmv.displayMenu();
     }
 
+    /**
+     * The displaySaveGameView method
+     * Purpose: saves a game object to disk
+     */
     public void displaySaveGameView() {
-        System.out.println("Save game option selected.");
+        // System.out.println("Save game option selected.");
+        
+        // get rid of \n character left in the stream
+        keyboard.nextLine();
+        
+        // prompt user and get a file path
+        System.out.println("Enter a file name to save the game to: ");
+        String filePath = keyboard.next();
+        
+        Game theGame = CityOfAaron.getTheGame();
+        
+        // call the saveGame() method in the GameControl class to save the game
+        GameControl.saveGame(theGame, filePath);
     }
 }
