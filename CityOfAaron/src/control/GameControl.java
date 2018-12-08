@@ -11,14 +11,18 @@ import model.*;
 import cityofaaron.CityOfAaron;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class GameControl {
     // size of the Locations array
-    private static int MAX_ROW = 5;
-    private static int MAX_COL = 5;
+    private static final int MAX_ROW = 5;
+    private static final int MAX_COL = 5;
     private static Game theGame;
     
     public static void createNewGame(String _name) {
@@ -308,5 +312,146 @@ public class GameControl {
             catch(Exception e) {
                 System.out.println("There was an error writing the saved game file\n"+ e);
             }
+    }
+    
+    /**
+     * printAnimalList method
+     * Purpose: save list of animals to disk
+     */
+    public void printAnimalList() {
+        Scanner keyboard = new Scanner(System.in);
+        
+        // prompt the user for a file name, get and save the user's input
+        System.out.println("Enter a path to save the list to: ");
+        String listPath = keyboard.next();
+        
+        FileWriter outFile = null;
+        // declare a reference to a PrintWriter object
+        try (PrintWriter out = new PrintWriter(listPath)) {
+            // create the PrintWriter onject
+            // get a reference to the ArrayList
+            ArrayList<ListItem> animals = theGame.getAnimals();
+            
+            // output a heading for the report
+            out.println("       Animal Report       ");
+            out.printf("%n%-20s%10s", "Description", "Quantity");
+            out.printf("%n%-20s%10s", "-----------", "--------");
+            
+            // use a for loop to get the data from the ArrayList
+            animals.forEach((item) -> {
+                out.printf("%n%-20s%7d", item.getName(), item.getNumber());
+            });
+                
+            System.out.println("File successfully saved.");
+        }
+        catch(Exception e) {
+            // output error message
+            System.out.println("Error saving list to file");
+            System.out.println("I/O Error:" + e.getMessage());
+        }
+        finally {
+            if (outFile != null) {
+                try {
+                    outFile.close();
+                }
+                catch (IOException e) {
+                    System.out.println("Error closing the file\n" + e);
+                }
+            }
+        }
+    }
+    
+    /**
+     * printToolList method
+     * Purpose: save list of tools to disk
+     */
+    public void printToolList() {
+        Scanner keyboard = new Scanner(System.in);
+        
+        // prompt the user for a file name, get and save the user's input
+        System.out.println("Enter a path to save the list to: ");
+        String listPath = keyboard.next();
+        
+        FileWriter outFile = null;
+        // declare a reference to a PrintWriter object
+        try (PrintWriter out = new PrintWriter(listPath)) {
+            // create the PrintWriter onject
+            // get a reference to the ArrayList
+            ArrayList<ListItem> tools = theGame.getTools();
+            
+            // output a heading for the report
+            out.println("       Tool Report        ");
+            out.printf("%n%-20s%10s", "Description", "Quantity");
+            out.printf("%n%-20s%10s", "-----------", "--------");
+            
+            // use a for loop to get the data from the ArrayList
+            tools.forEach((item) -> {
+                out.printf("%n%-20s%7d", item.getName(), item.getNumber());
+            });
+                
+            System.out.println("File successfully saved.");
+        }
+        catch(Exception e) {
+            // output error message
+            System.out.println("Error saving list to file");
+            System.out.println("I/O Error:" + e.getMessage());
+        }
+        finally {
+            if (outFile != null) {
+                try {
+                    outFile.close();
+                }
+                catch (IOException e) {
+                    System.out.println("Error closing the file\n" + e);
+                }
+            }
+        }
+    }
+    
+    /**
+     * printProvisionsList method
+     * Purpose: save list of provisions to disk
+     */
+    public void printProvisionsList() {
+        Scanner keyboard = new Scanner(System.in);
+        
+        // prompt the user for a file name, get and save the user's input
+        System.out.println("Enter a path to save the list to: ");
+        String listPath = keyboard.next();
+        
+        FileWriter outFile = null;
+        // declare a reference to a PrintWriter object
+        try (PrintWriter out = new PrintWriter(listPath)) {
+            // create the PrintWriter onject
+            // get a reference to the ArrayList
+            ArrayList<ListItem> provisions = theGame.getProvisions();
+            
+            // output a heading for the report
+            out.println("       Provisions Report       ");
+            out.printf("%n%-20s%10s", "Description", "Quantity");
+            out.printf("%n%-20s%10s", "-----------", "--------");
+            
+            // use a for loop to get the data from the ArrayList
+            provisions.forEach((item) -> {
+                out.printf("%n%-20s%7d", item.getName(), item.getNumber());
+            });
+                
+            System.out.println("File successfully saved.");
+        }
+        catch(Exception e) {
+            // output error message
+            System.out.println("Error saving list to file");
+            System.out.println("I/O Error:" + e.getMessage());
+        }
+        finally {
+            if (outFile != null) {
+                try {
+                    outFile.close();
+                }
+                catch (IOException e) {
+                    System.out.println("Error closing the file\n" + e);
+                }
+            }
+        }
     }
 }

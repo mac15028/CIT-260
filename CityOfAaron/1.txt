@@ -1,0 +1,8 @@
+       Animal Report       
+
+Description           Quantity
+-----------           --------
+Cows                     10
+Chickens                 17
+Pigs                      8
+Goats                     9

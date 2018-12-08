@@ -9,11 +9,14 @@ public class ListMenuView extends MenuView{
         super( "\n" +
                "List Menu\n" +
                "1 - List animals\n" +
-               "2 - List tools\n" +
-               "3 - List provisions\n" +
-               "4 - List team\n" +
-               "5 - Return to game",
-        5);
+               "2 - Save animal list\n" +
+               "3 - List tools\n" +
+               "4 - Save tool list\n" +
+               "5 - List provisions\n" +
+               "6 - Save provisions list\n" +
+               "7 - List team members\n" +
+               "8 - Return to game",
+        8);
     }
     
     @Override public void doAction(int option) {
@@ -21,16 +24,25 @@ public class ListMenuView extends MenuView{
             case 1: // list animals
                 listAnimals();
                 break;
-            case 2: // list tools
+            case 2: // save animals
+                printAnimals();
+                break;
+            case 3: // list tools
                 listTools();
                 break;
-            case 3: // list provisions
+            case 4: // save tools
+                printTools();
+                break;
+            case 5: // list provisions
                 listProvisions();
                 break;
-            case 4: // list team
+            case 6: // save provisions
+                printProvisions();
+                break;
+            case 7: // list team
                 listTeam();
                 break;
-            case 5: // return to game
+            case 8: // return to game
                 return;
         }
     }
@@ -55,5 +67,20 @@ public class ListMenuView extends MenuView{
     
     public void listTeam() {
         System.out.println("List team selected.");
+    }
+    
+    public void printAnimals() {
+        GameControl gameControl = new GameControl();
+        gameControl.printAnimalList();
+    }
+    
+    public void printTools() {
+        GameControl gameControl = new GameControl();
+        gameControl.printToolList();
+    }
+        
+    public void printProvisions() {
+        GameControl gameControl = new GameControl();
+        gameControl.printProvisionsList();
     }
 }
