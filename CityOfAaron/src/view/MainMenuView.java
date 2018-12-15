@@ -21,9 +21,9 @@ public class MainMenuView extends MenuView{
     public MainMenuView ()
     {
         super( "\n" +
-               "**********************************\n" +
-               "* CITY OF AARON: MAIN GAME MENU *\n" +
-               "**********************************\n" +
+               "***********************************\n" +
+               "*  CITY OF AARON: MAIN GAME MENU  *\n" +
+               "***********************************\n" +
                " 1 - Start new game\n" +
                " 2 - Get and start a saved game\n" +
                " 3 - Get help on playing the game\n" +
@@ -67,12 +67,18 @@ public class MainMenuView extends MenuView{
     // =================================== 
     public void startNewGame() {
         // Display the Banner Page.
-        System.out.println("Welcome to the city of Aaron." + "\n"
-                + "You have been summoned here by the High Priest to assume your role as ruler of the city." + "\n"
-                + "Your responsibility is to buy and sell land, determine how much wheat to plant each year, and how much to set aside to feed your people." + "\n"
-                + "In addition, it will be your job to pay an annual tithe on the wheat that is harvested." + "\n"
-                + "If you fail to provide enough wheat for the people, people will starve,  some people will die, and your workforce will be diminished." + "\n"
-                + "Plan carefully.");
+        System.out.println("\nWelcome to the City of Aaron.\n\n"
+                         + "You have been summoned here by the high priest\n"
+                         + "to assume your role as the ruler of the city\n"
+                         + "Your responsibility is to buy and sell land,\n"
+                         + "determine how much wheat to plant each year,\n"
+                         + "and how much to feed your people. In addition,\n"
+                         + "it will be your job to pay an annual tithe on\n"
+                         + "the wheat that is harvested.\n\n"
+                         + "If you fail to provide enough wheat for your\n"
+                         + "people, they will starve, and your workforce\n"
+                         + "will be diminished. Plan very carefully, or\n"
+                         + "you may find yourself in trouble. Good luck!");
         
         // Prompt for and get the user's name
         String name;
@@ -84,7 +90,7 @@ public class MainMenuView extends MenuView{
         GameControl.createNewGame(name);
           
         // Display a welcome message
-        System.out.println("Welcome, " + name + ". Have fun!");
+        System.out.println("\nWelcome, " + name + ". Have fun!");
         
         // Display the Game menu
         GameMenuView gmv = new GameMenuView();

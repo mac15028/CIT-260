@@ -26,6 +26,7 @@ public class GameControl {
     private static Game theGame;
     
     public static void createNewGame(String _name) {
+        theGame = null;
         // create the game object
         theGame = new Game();
         
@@ -51,7 +52,7 @@ public class GameControl {
         CropData cropData = new CropData();
         
         // initialize the CropData values
-        cropData.setYear(0);
+        cropData.setYear(1);
         cropData.setPopulation(100);
         cropData.setNewPeople(5);
         cropData.setCropYield(3);

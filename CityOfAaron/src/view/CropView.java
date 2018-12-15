@@ -5,6 +5,9 @@ import control.*;
 import java.util.Scanner;
 import cityofaaron.CityOfAaron;
 import exceptions.CropException;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class CropView {
     // Create a Scanner object
@@ -121,8 +124,92 @@ public class CropView {
         System.out.format("You have planted %d acres of wheat.%n", cropData.getAcresPlanted());
     }
     
-    public static void displayCropsReportView() {
+    public static void setOfferingView() {
+        boolean paramsNotOkay;
+        // exception handling
+        do {
+            paramsNotOkay = false;
+            // prompt the user for input
+            System.out.print("\nWhat percent of your harvest would you like give as an offering? ");
+            int offering = keyboard.nextInt();
+            try {
+                CropControl.setOffering(offering, cropData);
+            }
+            catch(CropException e) {
+                System.out.println("I am sorry master, I cannot do this.");
+                System.out.println(e.getMessage());
+                paramsNotOkay = true;
+            }
+        } while(paramsNotOkay);
         
+        System.out.format("You have offered %d percent of your harvest.%n", cropData.getOffering());
+    }
+    
+    public static void harvestCropsView() {
+        // call the harvestCrops() method
+        System.out.print("\nHarvesting crops...");
+        CropControl.harvestCrops(cropData);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CropView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.print("\nDone.\n");
+    }
+    
+    public static void payOfferingView() {
+        // call the payOffering() method
+        System.out.print("\nPaying offering...");
+        CropControl.payOffering(cropData);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CropView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.print("\nDone.\n");
+    }
+        
+    public static void storeWheatView() {
+        // call the storeWheat() method
+        System.out.print("\nStoring harvest...");
+        CropControl.storeWheat(cropData);
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CropView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.print("\nDone.\n");
+    }
+    
+    public static void displayCropsReportView() {
+        System.out.print("\nGenerating annual report...");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(CropView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.print("\nDone.\n\n");
+        
+        System.out.format("******************************\n"
+                        + "*        End of Year %d       *\n" 
+                        + "******************************\n", cropData.getYear());
+        System.out.format("People starved: %d", cropData.getNumStarved());
+        System.out.format("\nNew people: %d", cropData.getNewPeople());
+        System.out.format("\nCurrent population: %d", cropData.getPopulation());
+        System.out.format("\nAcres owned: %d", cropData.getAcresOwned());
+        System.out.format("\nCrop yield per acre: %d bushels", cropData.getCropYield());
+        System.out.format("\nHarvest amount: %d bushels", cropData.getHarvest());
+        System.out.format("\nOffering amount: %d bushels", cropData.getOfferingBushels());
+        System.out.format("\nNet harvest: %d bushels", cropData.getHarvestAfterOffering());
+        System.out.format("\nEaten by rats: %d bushels", cropData.getEatenByRats());
+        System.out.format("\nWheat in store: %d bushels\n", cropData.getWheatInStore());
+        System.out.println("\nPress enter to continue.");
+        try {
+            System.in.read();
+        }
+        catch (java.io.IOException ioe) {
+            System.out.println("I/O Exception: " +ioe);
+        }
     }
     
     /**
@@ -144,7 +231,33 @@ public class CropView {
         // call the plantCropsView() method
         plantCropsView();
         
-        // add calls to the other crop view methods
-        // as they are written
+        // call the setOfferingView() method
+        setOfferingView();
+        
+        // harvest the crops
+        harvestCropsView();
+        
+        // pay the offering
+        payOfferingView();
+        
+        // store the harvest
+        storeWheatView();
+        
+        // calculate eaten by rats
+        CropControl.calcEatenByRats(cropData);
+        
+        // grow the population
+        CropControl.growPopulation(cropData);
+        
+        // calculate the number starved
+        CropControl.calcStarved(cropData);
+        
+        // display the year-end report
+        displayCropsReportView();
+        
+        // increment the year
+        int year = cropData.getYear();
+        year = year + 1;
+        cropData.setYear(year);
     }
 }

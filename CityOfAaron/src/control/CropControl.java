@@ -14,9 +14,9 @@ public class CropControl {
     // constants
     private static final int ACRES_PER_BUSHEL = 2;
     private static final int PEOPLE_PER_ACRE = 10;
-    // private static final int BUSHELS_PER_PERSON = 20;
-    private static int YIELD_BASE = 1;
-    private static int YIELD_RANGE = 3;
+    private static final int BUSHELS_PER_PERSON = 20;
+    private static int YIELD_BASE;
+    private static int YIELD_RANGE;
     private static final int LAND_BASE = 17;
     private static final int LAND_RANGE = 10;
    
@@ -153,22 +153,23 @@ public class CropControl {
      * The setOffering method
      * Purpose: to set offering percentage
      * @param offering
-     * @return offering percentage
+     * @param cropData
      * Pre-conditions: offering must be positive
      * and less than or equal to 100 percent
+     * @throws exceptions.CropException
      */
-    public static int setOffering(int offering)
+    public static void setOffering(int offering, CropData cropData) throws CropException
     {
         //if offering < 0, return -1
         if (offering < 0)
-            return -1;
+            throw new CropException("A negative value was input");
         
         //if offering > 100, return -1
         if (offering > 100)
-            return -1;
+            throw new CropException("You cannot offer more than 100 percent");
         
         //return offering
-        return offering;
+        cropData.setOffering(offering);
     }
     
     /**
@@ -185,17 +186,16 @@ public class CropControl {
     /**
      * harvestCrops() method
      * Purpose: Calculate the amount harvested based on the offering
-     * @param offering
      * @param cropData
-     * @return the amount of wheat harvested
      */
-    public static int harvestCrops(int offering, CropData cropData){
+    public static void harvestCrops(CropData cropData){
+        int offering = cropData.getOffering();
         // if offering > 12, random value between 2-5 per acre
         if (offering > 12) {
             YIELD_BASE = 2;
             YIELD_RANGE = 4;
         // else if offering between 8 and 12, random value between 2-4 per acre
-        } else if (offering > 8 && offering < 12) {
+        } else if (offering >= 8 && offering <= 12) {
             YIELD_BASE = 2;
             YIELD_RANGE = 3;
         // else, random value between 1-3 per acre
@@ -203,46 +203,101 @@ public class CropControl {
             YIELD_BASE = 1;
             YIELD_RANGE = 3;
         }
-        int harvest = random.nextInt(YIELD_BASE) + YIELD_RANGE;
-        return harvest;
+        int acresPlanted = cropData.getAcresPlanted();
+        int cropYield = random.nextInt(YIELD_RANGE) + YIELD_BASE;
+        int harvest = cropYield * acresPlanted;
+        cropData.setCropYield(cropYield);
+        cropData.setHarvest(harvest);
     }
     
     /**
      * payOffering() method
      * Purpose: To use the results of setOffering() and harvestCrops()
      * to pay the offering
-     * @param offering percent
-     * @param harvest
      * @param cropData
-     * @return the amount of wheat in store
      */
-    
-    public static int payOffering(double offering, int harvest, CropData cropData) {
-        int harvestAfterOffering;
-        harvestAfterOffering = (int) (harvest - (harvest * (offering / 100)));
-        return harvestAfterOffering;
+    public static void payOffering(CropData cropData) {
+        int harvest = cropData.getHarvest();
+        double offering = cropData.getOffering() / 100.0;
+        int offeringBushels = (int) (harvest * (offering));
+        int harvestAfterOffering = harvest - offeringBushels;
+        cropData.setOfferingBushels(offeringBushels);
+        cropData.setHarvestAfterOffering(harvestAfterOffering);
     }
     
-    public static int storeWheat(int harvestAfterOffering, CropData cropData) {
+    /**
+     * storeWheat method
+     * Purpose: Store the wheat gained after harvest and offering
+     * @param cropData 
+     */
+    public static void storeWheat(CropData cropData) {
+        int harvestAfterOffering = cropData.getHarvestAfterOffering();
         int wheatInStore = cropData.getWheatInStore();
         wheatInStore = wheatInStore + harvestAfterOffering;
         cropData.setWheatInStore(wheatInStore);
-        return wheatInStore;
     }
     
-    // TODO: calcEatenByRats(:CropData): int
+    /**
+     * calcEatenByRats method
+     * Purpose: Calculate the amount of wheat eaten by rats
+     * @param cropData 
+     */
+    public static void calcEatenByRats(CropData cropData) {
     // generate random value between 1 and 100
+    int chance = random.nextInt(100) + 1;
+    
     // if value < 30, calculate wheat eaten by rats according to offering
-    // if offering < 8, random value between 3% and 7%
-    // else if offering >= 8 and <= 12, random value between 6% and 10%
-    // else if offering > 12, random value between 3% and 5%
-    // subtract amount eaten from wheatInStore
+    if (chance < 30) {
+        int offering = cropData.getOffering();
+        int eatenAmount;
+        // if offering < 8, random value between 3% and 7%
+        if (offering < 8) {
+            eatenAmount = random.nextInt(4) + 3;
+        // else if offering >= 8 and <= 12, random value between 6% and 10%
+        } else if (offering >= 8 && offering <= 12) {
+            eatenAmount = random.nextInt(4) + 6;
+        // else if offering > 12, random value between 3% and 5%
+        } else {
+            eatenAmount = random.nextInt(3) + 3;
+        }
+        double eatenPercent = eatenAmount / 100.0;
+        int wheatInStore = cropData.getWheatInStore();
+        int eatenByRats = (int) (wheatInStore * eatenPercent);
+        // subtract amount eaten from wheatInStore
+        wheatInStore = wheatInStore - eatenByRats;
+        cropData.setEatenByRats(eatenByRats);
+        cropData.setWheatInStore(wheatInStore);
+    }
+    }
     
-    // TODO: growPopulation(:CropData): int
-    // generate random number to grow population between 1% and 5%
+    /**
+     * growPopulation method
+     * Purpose: grow the population of the city
+     * @param cropData 
+     */
+    public static void growPopulation(CropData cropData) {
+        int population = cropData.getPopulation();
+        // generate random number to grow population between 1% and 5%
+        int popGrowth = random.nextInt(4) + 1;
+        double popPercent = popGrowth / 100.0;
+        int newPeople = (int) (population * popPercent);
+        cropData.setNewPeople(newPeople);
+        population = population + newPeople;
+        cropData.setPopulation(population);
+    }
     
-    // TODO: calcStarved(:CropData): int
-    // divide population by BUSHELS_PER_PERSON
-    // if number of people fed is less than population,
-    // save that number and subtract from population
+    public static void calcStarved(CropData cropData) {
+        int population = cropData.getPopulation();
+        int wheatSetAside = cropData.getWheatForPeople();
+        // amount of wheat set aside / 20 = people fed
+        int peopleFed = wheatSetAside / BUSHELS_PER_PERSON;
+        
+        // if people fed < population, subtract from population
+        if (peopleFed < population) {
+            int numStarved = population - peopleFed;
+            cropData.setNumStarved(numStarved);
+            population = population - numStarved;
+            cropData.setPopulation(population);
+        }
+    }
 }
